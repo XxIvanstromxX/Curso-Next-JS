@@ -9,10 +9,10 @@ importers:
   .:
     dependencies:
       '@prisma/adapter-pg':
-        specifier: ^6.19.2
+        specifier: '6'
         version: 6.19.2
       '@prisma/client':
-        specifier: ^6.19.2
+        specifier: '6'
         version: 6.19.2(prisma@6.19.2(typescript@5.9.3))(typescript@5.9.3)
       dotenv:
         specifier: ^17.3.1
@@ -37,7 +37,7 @@ importers:
         specifier: 16.1.6
         version: 16.1.6(@typescript-eslint/parser@8.57.0(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3)
       prisma:
-        specifier: ^6.19.2
+        specifier: '6'
         version: 6.19.2(typescript@5.9.3)
       tailwindcss:
         specifier: ^4
