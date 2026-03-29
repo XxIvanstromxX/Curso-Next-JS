@@ -8,18 +8,43 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User { 
-  id    Int     @id @default(autoincrement()) 
+model User {
+  id    String     @id @default(uuid())
+  name  String
   email String  @unique
-  name  String?
-  posts Post[]
+  
+  password String
+
+  client Client[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
-model Post { 
-  id        Int     @id @default(autoincrement()) 
-  title     String
-  content   String?
-  published Boolean @default(false) 
-  author    User    @relation(fields: [authorId], references: [id]) 
-  authorId  Int
-} 
+model Client {
+  id     String @id @default(uuid())
+  name   String
+  company String
+  email  String?
+
+  userId String
+  user User @relation(fields: [userId], references: [id])
+
+  projects Project[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Project {
+  id       String @id @default(uuid())
+  name     String
+  status   String
+  budget   Float?
+
+  clientId String
+  client Client @relation(fields: [clientId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
