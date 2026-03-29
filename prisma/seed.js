@@ -4,28 +4,32 @@ import { PrismaClient } from '../src/generated/prisma/index.js';
 
 const connectionString = process.env.DATABASE_URL;
 const adapter = new PrismaPg({ connectionString });
-
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
-  await prisma.user.create({
+  const user = await prisma.user.create({
     data: {
-      name: 'Alice',
-      email: 'alicemx@gmail.com',
-      posts: {
-        create: [
-          {
-            title: 'Hello World',
-            content: 'This is my first post',
-            published: true,
-          },
-          {
-            title: 'Prisma is great',
-            content: 'I love using Prisma with Next.js',
-            published: true,
-          },
-        ],
-      },
+      name: 'John Doe',
+      email: 'john21@gmail.com',
+      password: 'password123',
+    },
+  });
+
+  const client = await prisma.client.create({
+    data: {
+      name: 'Acme Corporation',
+      email: 'contact@acme.com',
+      company: 'Acme Corporation',
+      userId: user.id,
+    },
+  });
+
+  const project = await prisma.project.create({
+    data: {
+      name: 'Project Alpha',
+      status: 'IN_PROGRESS',
+      budget: 10000,
+      clientId: client.id,
     },
   });
 }
