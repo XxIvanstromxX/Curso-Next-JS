@@ -13,7 +13,7 @@ export const proxy = auth((req) => {
     return Response.redirect(new URL('/login', req.url));
   }
 
-  if (!req.auth) {
+  if (!req.auth && req.nextUrl.pathname.startsWith('/api')) {
     return Response.json({ error: 'Unauthorized' }, { status: 401 });
   }
 });
