@@ -5,7 +5,7 @@ export default async function Dashboard() {
   const session = await auth();
 
   return (
-    <div className=" bg-zinc-50 font-sans dark:bg-blue-900 flex flex-col justify-center">
+    <div className=" bg-zinc-50 font-sans flex flex-col justify-center text-slate-900">
       <h1>Dashboard</h1>
       <p>Welcome, {session?.user?.name}</p>
       {session?.user?.image ? (

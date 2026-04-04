@@ -27,7 +27,7 @@ export default function SideBar() {
 
   if (!isOpen) {
     return (
-      <aside className="w-15 bg-white shadow-md flex flex-col justify-between border-r border-gray-200 ">
+      <aside className="w-15 bg-white shadow-md flex flex-col justify-between border-r border-gray-200 text-slate-900">
         <div className="p-5 flex items-center">
           <button
             className="ml-auto text-2xl text-gray-500"
@@ -41,7 +41,7 @@ export default function SideBar() {
   }
 
   return (
-    <aside className="w-60 bg-white shadow-md  flex flex-col justify-between border-r border-gray-200 ">
+    <aside className="w-60 bg-white shadow-md  flex flex-col justify-between border-r border-gray-200 text-slate-900">
       <div className="p-5 flex items-center space-x-3">
         <Image
           src={logo}
