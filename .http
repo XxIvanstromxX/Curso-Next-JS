@@ -1,0 +1,23 @@
+### Get a clients para obetener respuesta basica
+GET http://localhost:3000/api/client
+
+### Post para crear un nuevo cliente
+POST http://localhost:3000/api/client
+Content-Type: application/json
+
+{
+    "name": "Elon Musk",
+    "email": "elonluna123@gmail.com",
+    "company": "SpaceX"
+}
+
+### Put para actualizar un cliente existente
+PUT http://localhost:3000/api/client/a5f6234e-058b-4a7d-81aa-d7cf9c67e2d3
+Content-Type: application/json
+
+{
+    "company": "Tesla"
+}
+
+### Delete para eliminar un cliente
+DELETE http://localhost:3000/api/client/a5f6234e-058b-4a7d-81aa-d7cf9c67e2d3
