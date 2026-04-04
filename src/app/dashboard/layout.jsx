@@ -1,17 +1,14 @@
+import SideBar from '@/features/dashboard/components/SideBar';
+import { SessionProvider } from 'next-auth/react';
+
 export default function DashboardLayout({ children }) {
   return (
-    <div className="flex h-screen">
-      <aside className="w-52">
-        <nav className="flex flex-col gap-2 p-4">
-          <a href="/dashboard">Dashboard</a>
-          <a href="/dashboard/profile">Profile</a>
-          <a href="/dashboard/settings">Settings</a>
-        </nav>
-      </aside>
+    <SessionProvider>
+      <div className="flex h-screen">
+        <SideBar />
 
-      <main className="flex-1 p-4 bg-zinc-50 font-sans dark:bg-blue-900">
-        {children}
-      </main>
-    </div>
+        <main className="flex-1 bg-gray-100">{children}</main>
+      </div>
+    </SessionProvider>
   );
 }
