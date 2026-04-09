@@ -3,10 +3,20 @@ import {
   getClients,
   createClient,
 } from '@/features/clients/services/clientService'; // Asegúrate de tener esta función implementada para obtener los clientes
+import { auth } from '@/lib/auth'; // Asegúrate de tener esta función implementada para manejar la autenticación
+
+async function getUserIdFromSession() {
+  const session = await auth();
+  if (!session) {
+    throw new Error('Unauthorized');
+  }
+  return session.user.id; // Asegúrate de que tu sesión tenga esta estructura
+}
 
 export async function GET() {
   try {
-    const clients = await getClients(); // Llama a la función para obtener los clientes desde tu servicio
+    const id = await getUserIdFromSession(); // Obtén el ID del usuario autenticado
+    const clients = await getClients(id); // Llama a la función para obtener los clientes desde tu servicio
     return NextResponse.json(clients);
   } catch (error) {
     console.error('Error fetching clients:', error);
@@ -19,13 +29,11 @@ export async function GET() {
 
 export async function POST(request) {
   try {
-    const { name, email, company, userId } = await request.json();
-    await createClient({ name, email, company, userId }); // Llama a la función para crear un nuevo cliente desde tu servicio
+    const userId = await getUserIdFromSession(); // Obtén el ID del usuario autenticado
+    const { name, email, company } = await request.json();
+    const newClient = await createClient({ name, email, company, userId }); // Llama a la función para crear un nuevo cliente desde tu servicio
 
-    return NextResponse.json(
-      { message: 'Client created successfully' },
-      { status: 201 },
-    );
+    return NextResponse.json(newClient, { status: 201 });
   } catch (error) {
     console.error('Error creating client:', error);
     return NextResponse.json(
