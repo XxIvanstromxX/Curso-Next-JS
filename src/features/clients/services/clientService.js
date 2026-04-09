@@ -1,13 +1,10 @@
 import { prisma } from '@/lib/prisma';
 
-export const getClients = async () => {
+export const getClients = async (id) => {
   try {
     const clients = await prisma.client.findMany({
       where: {
-        userId: 'ab3e1dfa-94b1-47ed-ac53-e314e14c4037', // Reemplaza con el ID del usuario actual
-      },
-      include: {
-        projects: true, // Incluye los proyectos relacionados con cada cliente
+        userId: id, // Filtra los clientes por el ID del usuario
       },
     });
     return clients;
@@ -22,7 +19,6 @@ export const createClient = async (clientData) => {
     const newClient = await prisma.client.create({
       data: {
         ...clientData,
-        userId: 'ab3e1dfa-94b1-47ed-ac53-e314e14c4037', // Reemplaza con el ID del usuario actual
       },
     });
     return newClient;
