@@ -7,7 +7,7 @@ export default function DashboardLayout({ children }) {
       <div className="flex h-screen">
         <SideBar />
 
-        <main className="flex-1 bg-gray-100">{children}</main>
+        <main className="flex-1 bg-gray-100 overflow-y-scroll">{children}</main>
       </div>
     </SessionProvider>
   );
