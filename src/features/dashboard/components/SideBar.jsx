@@ -7,6 +7,7 @@ import ham from '@/assets/ham.svg';
 import { useState } from 'react';
 import { signOut } from 'next-auth/react';
 import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 
 export default function SideBar() {
   const [isOpen, setIsOpen] = useState(true);
@@ -19,7 +20,20 @@ export default function SideBar() {
     setIsOpen((prev) => !prev);
   };
 
-  const items = ['Overview', 'Clients', 'Projects', 'Team'];
+  const items = [
+    {
+      name: 'Overview',
+      url: '/dashboard',
+    },
+    {
+      name: 'Clients',
+      url: '/dashboard/clients',
+    },
+    {
+      name: 'Projects',
+      url: '/dashboard/projects',
+    },
+  ];
 
   const handleItemClick = (item) => {
     setActiveItem(item);
@@ -27,7 +41,7 @@ export default function SideBar() {
 
   if (!isOpen) {
     return (
-      <aside className="w-15 bg-white shadow-md flex flex-col justify-between border-r border-gray-200 text-slate-900">
+      <aside className="w-15 bg-white shadow-md flex flex-col justify-between border-r border-gray-200 text-slate-900 h-screen">
         <div className="p-5 flex items-center">
           <button
             className="ml-auto text-2xl text-gray-500"
@@ -41,7 +55,7 @@ export default function SideBar() {
   }
 
   return (
-    <aside className="w-60 bg-white shadow-md  flex flex-col justify-between border-r border-gray-200 text-slate-900">
+    <aside className="w-60 bg-white shadow-md  flex flex-col justify-between border-r border-gray-200 text-slate-900 h-screen">
       <div className="p-5 flex items-center space-x-3">
         <Image
           src={logo}
@@ -60,17 +74,17 @@ export default function SideBar() {
         <ul className="space-y-2">
           {items.map((item) => (
             <li
-              key={item}
+              key={item.name}
               className={`px-2 py-1 rounded-md cursor-pointer ${
-                activeItem === item
+                activeItem === item.name
                   ? 'bg-blue-100 text-blue-600'
                   : 'text-gray-700 hover:bg-gray-100'
               }`}
-              onClick={() => handleItemClick(item)}
+              onClick={() => handleItemClick(item.name)}
             >
-              <a href="#" className="block">
-                {item}
-              </a>
+              <Link href={item.url} className="block">
+                {item.name}
+              </Link>
             </li>
           ))}
         </ul>
