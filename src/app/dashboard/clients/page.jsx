@@ -1,71 +1,31 @@
-'use client';
+'use server';
+import ClientWrapper from '@/features/clients/components/clientWrapper';
+import { ClientShowCards } from '@/features/clients/components/clientShowCards';
+import { auth } from '@/lib/auth';
+import { Suspense } from 'react';
 
-import ClientCard from '@/features/clients/components/clientCard';
-import ClientForm from '@/features/clients/components/clientForm';
-import { useEffect, useState } from 'react';
+function SkeletonCard() {
+  return (
+    <div className="border rounded p-4 animate-pulse">
+      <div className="h-4 bg-gray-300 rounded w-3/4 mb-2"></div>
+      <div className="h-4 bg-gray-300 rounded w-1/2 mb-2"></div>
+      <div className="h-4 bg-gray-300 rounded w-full"></div>
+    </div>
+  );
+}
 
-export default function ClientsPage() {
-  const [clients, setClients] = useState([]);
-  const [toggleForm, setToggleForm] = useState(false);
-
-  useEffect(() => {
-    const fetchClients = async () => {
-      try {
-        const response = await fetch('/api/client');
-        const data = await response.json();
-        console.log('Fetched clients:', data); // Agrega este log para verificar los clientes obtenidos
-        setClients(data);
-      } catch (error) {
-        console.error('Error fetching clients:', error);
-      }
-    };
-
-    fetchClients();
-  }, []);
-
-  const handleDelete = async (id) => {
-    try {
-      await fetch(`/api/client/${id}`, {
-        method: 'DELETE',
-      });
-      setClients((prevClients) =>
-        prevClients.filter((client) => client.id !== id),
-      );
-    } catch (error) {
-      console.error('Error deleting client:', error);
-    }
-  };
-
-  const handleAddClient = async (clientData) => {
-    try {
-      const response = await fetch('/api/client', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(clientData),
-      });
-      const newClient = await response.json();
-      setClients((prevClients) => [...prevClients, newClient]);
-    } catch (error) {
-      console.error('Error creating client:', error);
-    }
-  };
+export default async function ClientsPage() {
+  const session = await auth();
+  const id = session?.user?.id;
 
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Clients</h1>
-      <button
-        className="mb-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-        onClick={() => setToggleForm(!toggleForm)}
-      >
-        {toggleForm ? 'Close Form' : 'Add New Client'}
-      </button>
-      {toggleForm && <ClientForm onSubmit={handleAddClient} />}
+      <ClientWrapper userId={id} />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {clients.map((client) => (
-          <ClientCard key={client.id} client={client} onDelete={handleDelete} />
-        ))}
+        <Suspense fallback={<SkeletonCard />}>
+          <ClientShowCards userId={id} />
+        </Suspense>
       </div>
     </div>
   );
