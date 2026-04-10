@@ -1,3 +1,5 @@
+'use client';
+
 export default function ClientCard({ client, onDelete }) {
   return (
     <div className="bg-white shadow-md rounded-lg p-4">
